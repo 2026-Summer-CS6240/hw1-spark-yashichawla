@@ -10,14 +10,15 @@ maven.jar.name=spark-demo-1.0.jar
 job.name=wc.WordCountMain
 local.master=local[4]
 local.input=input
-local.output=output
+local.output=outputAWS
+local.log=logAWS
 # Pseudo-Cluster Execution
 hdfs.user.name=yashichawla
 hdfs.input=input
 hdfs.output=output
 # AWS EMR Execution
 aws.emr.release=emr-6.10.0
-aws.bucket.name=cs6240-demo-bucket
+aws.bucket.name=cs6240-demo-bucket-yc-v1
 aws.input=input
 aws.output=output
 aws.log.dir=log
@@ -128,6 +129,7 @@ aws: jar upload-app-aws delete-output-aws
 download-output-aws: clean-local-output
 	mkdir ${local.output}
 	aws s3 sync s3://${aws.bucket.name}/${aws.output} ${local.output}
+	aws s3 sync s3://${aws.bucket.name}/${aws.output} ${local.log}
 
 # Change to standalone mode.
 switch-standalone:
