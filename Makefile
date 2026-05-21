@@ -12,7 +12,7 @@ local.master=local[4]
 local.input=input
 local.output=output
 # Pseudo-Cluster Execution
-hdfs.user.name=joe
+hdfs.user.name=yashichawla
 hdfs.input=input
 hdfs.output=output
 # AWS EMR Execution
@@ -84,8 +84,9 @@ download-output-hdfs:
 # Runs pseudo-clustered (ALL). ONLY RUN THIS ONCE, THEN USE: make pseudoq
 # Make sure Hadoop  is set up (in /etc/hadoop files) for pseudo-clustered operation (not standalone).
 # https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation
-pseudo: jar stop-yarn format-hdfs init-hdfs upload-input-hdfs start-yarn clean-local-output 
-	spark-submit --class ${job.name} --master yarn --deploy-mode cluster ${jar.name} ${local.input} ${local.output}
+pseudo: jar stop-yarn start-yarn init-hdfs upload-input-hdfs clean-local-output
+	hdfs dfs -rm -r -f ${hdfs.output}
+	spark-submit --class ${job.name} --master yarn --deploy-mode cluster ${jar.name} ${hdfs.input} ${hdfs.output}
 	make download-output-hdfs
 
 # Runs pseudo-clustered (quickie).
