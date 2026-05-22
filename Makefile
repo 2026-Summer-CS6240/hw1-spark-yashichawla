@@ -129,7 +129,7 @@ aws: jar upload-app-aws delete-output-aws
 download-output-aws: clean-local-output
 	mkdir ${local.output}
 	aws s3 sync s3://${aws.bucket.name}/${aws.output} ${local.output}
-	aws s3 sync s3://${aws.bucket.name}/${aws.output} ${local.log}
+	aws s3 sync s3://${aws.bucket.name}/${aws.log} ${local.log}
 
 # Change to standalone mode.
 switch-standalone:
